@@ -1,0 +1,55 @@
+---
+
+- name: set timezone America/Sao_Paulo
+  timezone:
+    name: America/Sao_Paulo
+
+- name: Install Nodejs Repository
+  raw: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+- name: Add universe Repository
+  raw: sudo sh -c 'echo deb http://archive.ubuntu.com/ubuntu bionic universe >> /etc/apt/sources.list'
+
+- name: Update OS
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Install default dependencies
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  vars:
+    packages:
+      - build-essential
+      - curl
+      - git
+      - htop
+      - libcurl4-openssl-dev
+      - libffi-dev
+      - libmagickwand-dev
+      - libmemcached-dev
+      - libmemcached11
+      - libmysqlclient-dev
+      - libmysqlclient20
+      - libreadline-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - libxslt1-dev
+      - libxslt1.1
+      - libyaml-dev
+      - mysql-client
+      - nodejs
+      - ntp
+      - ntpdate
+      - postgresql-server-dev-all
+      - python3-software-properties
+      - zlib1g-dev
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+    autoremove: yes

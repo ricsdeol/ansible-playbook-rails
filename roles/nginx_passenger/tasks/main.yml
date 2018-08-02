@@ -1,0 +1,53 @@
+---
+- name: Install passenger dependencies
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  vars:
+    packages:
+      - dirmngr
+      - gnupg
+      - apt-transport-https
+      - ca-certificates
+
+- name: Install passenger repository key
+  raw: sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+  become: yes
+
+- name: Install passenger repository
+  raw: sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main > /etc/apt/sources.list.d/passenger.list'
+
+- name: Install passenger
+  apt:
+    name: [libnginx-mod-http-passenger, nginx-extras, nginx]
+    update_cache: yes
+
+- name: "Set passenger nginx module"
+  raw: if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then sudo ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
+
+- name: "Add performance passenger config"
+  copy:
+    src: passenger_performance.conf
+    dest: /etc/nginx/conf.d/
+    mode: u=rw,g=r,o=r
+
+
+- name: 'Update nginx config'
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    backup: true
+    mode: u=rw,g=r,o=r
+
+- name: 'Update nginx proxy config'
+  copy:
+    src: proxy.conf
+    dest: /etc/nginx/conf.d/
+    mode: u=rw,g=r,o=r
+
+- name: Restart Nginx
+  service: name=nginx state=restarted
+
+- name: Ensure Nginx is running
+  service: name=nginx state=started enabled=yes
