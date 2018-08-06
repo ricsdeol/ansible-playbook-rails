@@ -12,7 +12,7 @@
 
   vars:
     #sidekiq_token:
-    datadog_api_key: 
+    datadog_api_key:
     datadog_config:
       tags: "test_ansible"
       log_level: INFO
@@ -47,6 +47,7 @@
         rvm1_install_flags: '--auto-dotfiles --user-install',
         rvm1_user: deployer
       }
+    - wkhtmltox
     - ruby_config
     - nginx_passenger
     - redis

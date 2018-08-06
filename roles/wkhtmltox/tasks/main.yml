@@ -1,0 +1,12 @@
+---
+- name: Add wkhtmltopdf 0.12.4
+  copy:
+    src: wkhtmltox/bin/wkhtmltopdf
+    dest: /usr/bin/
+    mode: u=rwx,g=rx,o=rx
+
+- name: "Add wkhtmltoimage 0.12.4"
+  copy:
+    src: wkhtmltox/bin/wkhtmltoimage
+    dest: /usr/bin/
+    mode: u=rwx,g=rx,o=rx
