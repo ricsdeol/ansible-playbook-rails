@@ -1,2 +1,2 @@
 - src: rvm_io.ruby
-- src: MichaelRigart.passenger-nginx
+- src: Datadog.datadog
