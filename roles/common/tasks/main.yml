@@ -3,9 +3,10 @@
 - name: set timezone America/Sao_Paulo
   timezone:
     name: America/Sao_Paulo
+  become_user: root
 
 - name: Install Nodejs Repository
-  raw: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  raw: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 
 - name: Add universe Repository
   raw: sudo sh -c 'echo deb http://archive.ubuntu.com/ubuntu bionic universe >> /etc/apt/sources.list'
@@ -14,6 +15,7 @@
   apt:
     upgrade: yes
     update_cache: yes
+  become_user: root
 
 - name: Install default dependencies
   apt:
@@ -48,8 +50,10 @@
       - postgresql-server-dev-all
       - python3-software-properties
       - zlib1g-dev
+  become_user: root
 
 - name: Remove useless packages from the cache
   apt:
     autoclean: yes
     autoremove: yes
+  become_user: root

@@ -1,26 +1,23 @@
 ---
 - name: Install Rails
-  hosts: all
+  hosts: webserver
   remote_user: deployer
-  become: true
   gather_facts: true
   pre_tasks:
-    # - name: fix update
-    #   raw: sudo date -s "$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g') -0500"
     - name: installing ansible dependencies
       raw: sudo apt-get -y install python3 python3-simplejson python3-apt python python-simplejson python-apt
 
   vars:
-    #sidekiq_token:
-    datadog_api_key:
+    sidekiq_token: 0d61cad4:90c8679e
+    datadog_api_key: 002bab24d4d6a38d25b531a8a7b17f62
     datadog_config:
-      tags: "test_ansible"
+      tags: "new_environment"
       log_level: INFO
       apm_enabled: "true" # has to be set as a string
       logs_enabled: true  # log collection is available on agent 6
     datadog_config_ex:
       trace.config:
-        env: test_ansible
+        env: new_environment
       trace.concentrator:
         extra_aggregators: version
     datadog_checks:
@@ -37,6 +34,27 @@
         instances:
           - host: localhost
             port: 6379
+          - host: guaruja-solvian.redis.cache.windows.net
+            port: 6379
+            password: tLi5sx55Q9M5Z1GyqgT2Y+6yuEFg3C9Snqw5P9DD6fs=
+      postgres:
+        init_config:
+        instances:
+          - host: hml-timescale.postgres.database.azure.com port
+            port: 5432
+            username: solvian@hml-timescale
+            password: sQdDNuPx5ab8
+            tags:
+              - hosted
+      mysql:
+        init_config:
+        instances:
+          - host: hml-timescale.postgres.database.azure.com port
+            port: 5432
+            username: solvian@hml-timescale
+            password: sQdDNuPx5ab8
+            tags:
+              - hosted
 
   roles:
     - common
@@ -53,3 +71,5 @@
     - redis
     - memcached
     - { role: Datadog.datadog, become: yes }
+
+

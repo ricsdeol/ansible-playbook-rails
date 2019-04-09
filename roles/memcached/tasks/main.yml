@@ -1,6 +1,8 @@
 ---
 - name: Install Memcached
   apt: name=memcached state=latest
+  become_user: root
 
 - name: Ensure Memcached is running
   service: name=memcached state=started enabled=yes
+  become_user: root

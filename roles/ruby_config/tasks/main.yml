@@ -1,19 +1,16 @@
 ---
 - name: set gemrc
   raw: echo gem --no-document > ~/.gemrc
-  sudo: no
   become_user: deployer
 
 - name: parallel bundle
   shell: source /home/deployer/.profile &&  bundle config --global jobs 8
-  sudo: no
   become_user: deployer
   args:
     executable: /bin/bash
 
 - name: bundle payd sidekiq
   shell: source /home/deployer/.profile &&  bundle config --global gems.contribsys.com {{ sidekiq_token }}
-  sudo: no
   become_user: deployer
   args:
     executable: /bin/bash
