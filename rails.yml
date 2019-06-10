@@ -4,60 +4,14 @@
   gather_facts: true
   become: yes
   become_user: deployer
-  pre_tasks:
-    - name: installing ansible dependencies
-      raw: sudo apt-get update && sudo apt-get -y install python3 python3-simplejson python3-apt python python-simplejson python-apt
-
-  vars:
-    sidekiq_token:
-    datadog_api_key:
-    datadog_config:
-      tags: "new_environment"
-      log_level: INFO
-      apm_enabled: "true" # has to be set as a string
-      logs_enabled: true  # log collection is available on agent 6
-    datadog_checks:
-      nginx:
-        init_config:
-        instances:
-          - nginx_status_url: http://localhost/nginx_status/
-      mcache:
-        init_config:
-        instances:
-          - url: localhost
-      redisdb:
-        init_config:
-        instances:
-          - host: localhost
-            port: 6379
-          - host:
-            port: 6379
-            password:
-      postgres:
-        init_config:
-        instances:
-          - host:
-            port: 5432
-            username:
-            password:
-            tags:
-              - hosted
-      mysql:
-        init_config:
-        instances:
-          - host:
-            port: 5432
-            username:
-            password:
-            tags:
-              - hosted
+  include_vars: vars/production.yml
 
   roles:
     - common
     - {
         role: rvm.ruby,
         tags: ruby,
-        rvm1_rubies: ['ruby-2.3'],
+        rvm1_rubies: ['ruby-2.5'],
         rvm1_install_flags: '--auto-dotfiles --user-install',
         rvm1_user: deployer
       }

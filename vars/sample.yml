@@ -1,0 +1,32 @@
+sidekiq_token:
+datadog_api_key:
+  tags: "app:stalker"
+  log_level: INFO
+  apm_config:
+    enabled: true
+  logs_enabled: true  # log collection is available on agent 6
+datadog_checks:
+  nginx:
+    init_config:
+    instances:
+      - nginx_status_url: http://localhost/nginx_status/
+    logs:
+      - type: file
+        path: /var/log/access.log
+        service: nginx
+        source: nginx
+        sourcecategory: http_web_access
+      - type: file
+        path: /var/log/error.log
+        service: nginx
+        source: nginx
+        sourcecategory: http_web_access
+  mcache:
+    init_config:
+    instances:
+      - url: localhost
+  redisdb:
+    init_config:
+    instances:
+      - host: localhost
+        port: 6379

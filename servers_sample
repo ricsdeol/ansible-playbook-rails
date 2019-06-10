@@ -1,0 +1,4 @@
+[webserver]
+rails_server ansible_connection=ssh ansible_host=web1-xpto.eastus.cloudapp.azure.com ansible_user=deployer
+rails_server1 ansible_connection=ssh ansible_host=web2-xpto.eastus.cloudapp.azure.com ansible_user=deployer
+rails_server3 ansible_connection=ssh ansible_host=web3-xpto.eastus.cloudapp.azure.com ansible_user=deployer

@@ -1,6 +1,6 @@
 ---
 - name: set gemrc
-  raw: echo gem --no-document > ~/.gemrc
+  raw: 'echo "gem: --no-document" > ~/.gemrc'
   become_user: deployer
 
 - name: parallel bundle
@@ -8,10 +8,3 @@
   become_user: deployer
   args:
     executable: /bin/bash
-
-- name: bundle payd sidekiq
-  shell: source /home/deployer/.profile &&  bundle config --global gems.contribsys.com {{ sidekiq_token }}
-  become_user: deployer
-  args:
-    executable: /bin/bash
-  when: sidekiq_token is defined
