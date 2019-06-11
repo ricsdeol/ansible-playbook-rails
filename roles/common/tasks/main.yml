@@ -51,6 +51,8 @@
       - zlib1g-dev
       - freetds-bin
       - freetds-dev
+      - libjemalloc-dev
+      - libjemalloc1
   become_user: root
 
 - name: Remove useless packages from the cache

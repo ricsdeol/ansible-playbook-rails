@@ -4,17 +4,14 @@
   gather_facts: true
   become: yes
   become_user: deployer
-  include_vars: vars/production.yml
+  vars_files:
+    - vars/production.yml
 
   roles:
     - common
-    - {
-        role: rvm.ruby,
-        tags: ruby,
-        rvm1_rubies: ['ruby-2.5'],
-        rvm1_install_flags: '--auto-dotfiles --user-install',
-        rvm1_user: deployer
-      }
+    - role: zzet.rbenv
+      rbenv_users:
+        - deployer
     - wkhtmltox
     - ruby_config
     - nginx_passenger
